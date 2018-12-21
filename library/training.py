@@ -34,7 +34,6 @@ def rfc_optimization(cv_splits, X_train, y_train):
                                    y=y_train, 
                                    cv=cv_splits,
                                    scoring="roc_auc",
-                                   #fit_params={"early_stopping_rounds": 10, "eval_metric": "auc", "eval_set": eval_set},
                                    n_jobs=1).mean()
 
     parameters = {"n_estimators": (10, 1000),
@@ -49,11 +48,8 @@ def xgb_optimization(cv_splits, eval_set, X_train, y_train):
                                                     learning_rate=max(eta,0),
                                                     gamma=max(gamma,0),
                                                     max_depth=int(max_depth),                                               
-                                                    min_child_weight=0, #min_child_weight=int(min_child_weight),                                                           
-                                                    subsample=0.35, #subsample=max(min(subsample,1),0.0001),                                                                                              
-                                                    colsample_bytree=0.6, #colsample_bytree=max(min(colsample_bytree,1),0.0001),                                                                                             
-                                                    n_estimators=300, #n_estimators=int(n_estimators),
-
+                                                    min_child_weight=0,                                        
+													subsample=0.35,                                                  colsample_bytree=0.6,                                       n_estimators=300,
                                                     seed=42,
                                                     nthread=1,
                                                     silent=True,
@@ -67,11 +63,7 @@ def xgb_optimization(cv_splits, eval_set, X_train, y_train):
 
     parameters = {"eta": (0.001, 0.4),
                     "gamma": (0, 20),
-                    "max_depth": (1, 2000),
-                    #"min_child_weight": (0.0, 0),
-                    #"subsample": (0.3, 0.6), #0.3 - 0.6
-                    #"colsample_bytree": (0.6, 1)
-                    #"n_estimators": (20, 300)
+                    "max_depth": (1, 2000)
                     }
     
     return function, parameters
@@ -104,10 +96,10 @@ def train(X_train, y_train, X_test, y_test, model_name="xgb"):
                                 learning_rate=max(tree_best["params"]["eta"],0),
                                 gamma=max(tree_best["params"]["gamma"],0),
                                 max_depth=int(tree_best["params"]["max_depth"]),       
-                                min_child_weight=0, #min_child_weight=int(tree_best["max_params"]["min_child_weight"]), 
-                                subsample=0.35, #subsample=max(min(tree_best["max_params"]["subsample"],1),0.0001),
-                                colsample_bytree=0.6, #colsample_bytree=max(min(tree_best["max_params"]["colsample_bytree"],1),0.0001),
-                                n_estimators=300, #n_estimators=int(tree_best["max_params"]["n_estimators"]), 
+                                min_child_weight=0,
+                                subsample=0.35, 
+                                colsample_bytree=0.6, 
+                                n_estimators=300, 
 
                                 seed=42,
                                 nthread=4,
