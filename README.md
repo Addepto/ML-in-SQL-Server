@@ -1,4 +1,4 @@
-Python in-database
+ML in SQL Server (Python for SQL Server)
 ==================================
 
 This project shows how to use Python inside SQL Server 2017 with ‘Machine Learning Services’.
